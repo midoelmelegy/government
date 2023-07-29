@@ -40,8 +40,6 @@
           <li><a><strong>Balance: <span id="balance">0</span> Ether</strong></a></li>
           <li><a><strong>Address: <span id="address">0x0</span></strong></a></li>
         </ul>
-        <!-- Add the "Connect Wallet" button -->
-  <button id="connect-wallet-btn">Connect Wallet</button>
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
   </nav>
@@ -200,20 +198,36 @@
       </div>
     </div>
   </div>
-   <!-- JavaScript code for handling the button click event -->
-   <script>
-    // Replace this with your actual code for connecting the wallet
-    function connectWallet() {
-      // Add your wallet connection logic here
-      alert("Wallet connected!");
+   <!-- JavaScript code for connecting the wallet using Web3.js -->
+<script>
+  // Function to handle the wallet connection
+  async function connectWallet() {
+    try {
+      // Check if the browser has web3 capabilities
+      if (typeof window.ethereum !== 'undefined') {
+        // Request access to the user's accounts
+        await window.ethereum.request({ method: 'eth_requestAccounts' });
+        // Web3 provider has been enabled, and the user has allowed account access
+        alert("Wallet connected!");
+        // Refresh the page to display the connected wallet's information
+        location.reload();
+      } else {
+        // If web3 is not available, show an error message
+        alert("Web3 is not available in your browser. Please install MetaMask or use a web3-enabled browser.");
+      }
+    } catch (error) {
+      // Handle any errors that might occur during the wallet connection process
+      console.error(error);
+      alert("An error occurred while connecting to the wallet. Please try again.");
     }
+  }
 
-    // Get the "Connect Wallet" button element
-    var connectBtn = document.getElementById("connect-wallet-btn");
+  // Get the "Connect Wallet" button element
+  var connectBtn = document.getElementById("connect-wallet-btn");
 
-    // Attach the click event listener to the button
-    connectBtn.addEventListener("click", connectWallet);
-  </script>
+  // Attach the click event listener to the button
+  connectBtn.addEventListener("click", connectWallet);
+</script>
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="static/js/jquery.countdown.min.js"></script>
