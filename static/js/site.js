@@ -14,15 +14,26 @@ $(document).ready(function() {
   var TWELVE_HOURS = 43200;
   var DEFAULT_GAS = 3000000;
 
-  function connect() {
-    web3.setProvider(new web3.providers.HttpProvider($("https://mainnet.infura.io/v3/18f8830107fa4235ae7cef0457a96eb3").val()));
-    $.getJSON( "static/js/abi.json", function(abi) {
-      window.ponziContract = web3.eth.contract(abi).at($("#contract-address").val());
-      clearInterval(updateInterval);
-      updateInterval = setInterval(update, 10000); // ever 10s
-      update();
-    });
-  }
+  // Function to connect to the blockchain using Infura
+function connectToInfura() {
+  var infuraUrl = "https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID"; // Replace with your Infura project ID
+  var web3 = new Web3(new Web3.providers.HttpProvider(infuraUrl));
+
+  $.getJSON("static/js/abi.json", function(abi) {
+    var contractAddress = $("#contract-address").val(); // Replace with your contract address
+    window.ponziContract = new web3.eth.Contract(abi, contractAddress);
+
+    clearInterval(updateInterval);
+    updateInterval = setInterval(update, 10000); // every 10s
+    update();
+  });
+}
+
+// Get the "Connect Wallet" button element
+var connectBtn = document.getElementById("connect-wallet-btn");
+
+// Attach the click event listener to the button
+connectBtn.addEventListener("click", connectToInfura);
 
   function openModal(title, body) {
     $('.modal-title').text(title);
