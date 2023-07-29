@@ -13,12 +13,12 @@ $(document).ready(function () {
 
   // Function to connect to the blockchain using Infura
   function connectToInfura() {
-    var infuraUrl = "https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID"; // Replace with your Infura project ID
+    var infuraUrl = "https://mainnet.infura.io/v3/469b19720e5e488e85a00af2a63aa319"; // Replace with your Infura project ID
     web3Provider = new Web3.providers.HttpProvider(infuraUrl);
     window.web3 = new Web3(web3Provider);
 
     $.getJSON("static/js/abi.json", function (abi) {
-      var contractAddress = $("#contract-address").val(); // Replace with your contract address
+      var contractAddress = $("0xF45717552f12Ef7cb65e95476F217Ea008167Ae3").val(); // Replace with your contract address
       ponziContract = new web3.eth.Contract(abi, contractAddress);
 
       clearInterval(updateInterval);
