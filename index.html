@@ -40,6 +40,8 @@
           <li><a><strong>Balance: <span id="balance">0</span> Ether</strong></a></li>
           <li><a><strong>Address: <span id="address">0x0</span></strong></a></li>
         </ul>
+        <!-- Add the "Connect Wallet" button -->
+  <button id="connect-wallet-btn">Connect Wallet</button>
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
   </nav>
@@ -198,6 +200,20 @@
       </div>
     </div>
   </div>
+   <!-- JavaScript code for handling the button click event -->
+   <script>
+    // Replace this with your actual code for connecting the wallet
+    function connectWallet() {
+      // Add your wallet connection logic here
+      alert("Wallet connected!");
+    }
+
+    // Get the "Connect Wallet" button element
+    var connectBtn = document.getElementById("connect-wallet-btn");
+
+    // Attach the click event listener to the button
+    connectBtn.addEventListener("click", connectWallet);
+  </script>
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="static/js/jquery.countdown.min.js"></script>
