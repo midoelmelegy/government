@@ -15,7 +15,7 @@ $(document).ready(function() {
   var DEFAULT_GAS = 3000000;
 
   function connect() {
-    web3.setProvider(new web3.providers.HttpProvider($("#ethereum-node").val()));
+    web3.setProvider(new web3.providers.HttpProvider($("https://mainnet.infura.io/v3/18f8830107fa4235ae7cef0457a96eb3").val()));
     $.getJSON( "static/js/abi.json", function(abi) {
       window.ponziContract = web3.eth.contract(abi).at($("#contract-address").val());
       clearInterval(updateInterval);
