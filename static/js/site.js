@@ -19,7 +19,7 @@ $(document).ready(function () {
     var web3 = new Web3(new Web3.providers.HttpProvider(infuraUrl));
 
     $.getJSON("static/js/abi.json", function (abi) {
-      var contractAddress = $("0x0380EAE743058013864Db2F2c6Ba83610a8b0BEF").val(); // Replace with your contract address
+      var contractAddress = "0x0380EAE743058013864Db2F2c6Ba83610a8b0BEF"; // Replace with your contract address
       window.ponziContract = new web3.eth.Contract(abi, contractAddress);
 
       clearInterval(updateInterval);
@@ -83,7 +83,7 @@ $(document).ready(function () {
           handleError(error);
         }
         else {
-          $("#balance").text(web3.fromWei(result, "Ether"));
+          $("#balance").text(web3.utils.fromWei(result, "ether"));
         }
       });
     }).catch(function (error) {
@@ -97,7 +97,7 @@ $(document).ready(function () {
       }
       else {
         var oldJackpot = jackpot;
-        jackpot = parseInt(web3.fromWei(result, "Ether"));
+        jackpot = parseInt(web3.utils.fromWei(result, "ether"));
         if (oldJackpot != jackpot) {
           $('#jackpot').countTo({
             from: oldJackpot,
@@ -136,7 +136,7 @@ $(document).ready(function () {
         handleError(error);
       }
       else {
-        $("#totalPayouts").text(web3.fromWei(result, "Ether"));
+        $("#totalPayouts").text(web3.utils.fromWei(result, "ether"));
       }
     });
 
@@ -146,7 +146,7 @@ $(document).ready(function () {
         handleError(error);
       }
       else {
-        $("#totalDebts").text(web3.fromWei(result, "Ether"));
+        $("#totalDebts").text(web3.utils.fromWei(result, "ether"));
       }
     });
 
@@ -177,7 +177,7 @@ $(document).ready(function () {
                   var investorRow = $("<tr></tr>");
                   investorRow.append($("<td>" + (i + 1) + "</td>"));
                   investorRow.append($('<td><a href="' + "https://live.ether.camp/account/" + newCreditorAddresses[i] + '" target="_blank">' + newCreditorAddresses[i].substr(0, 22) + "</a></td>"));
-                  investorRow.append($("<td>" + web3.fromWei(newCreditorAmounts[i], "Ether").round(3) + "</td>"));
+                  investorRow.append($("<td>" + web3.utils.fromWei(newCreditorAmounts[i], "ether").round(3) + "</td>"));
                   investments.append(investorRow);
                 }
 
@@ -187,7 +187,7 @@ $(document).ready(function () {
                   var payoutRow = $("<tr></tr>");
                   payoutRow.append($("<td>" + (i + 1) + "</td>"));
                   payoutRow.append($('<td><a href="' + "https://live.ether.camp/account/" + newCreditorAddresses[i] + '" target="_blank">' + newCreditorAddresses[i].substr(0, 22) + "</a></td>"));
-                  payoutRow.append($("<td>" + web3.fromWei(newCreditorAmounts[i], "Ether").round(3) + "</td>"));
+                  payoutRow.append($("<td>" + web3.utils.fromWei(newCreditorAmounts[i], "ether").round(3) + "</td>"));
                   payouts.append(payoutRow);
                 }
 
@@ -197,7 +197,7 @@ $(document).ready(function () {
                   var nextPayoutRow = $("<tr></tr>");
                   nextPayoutRow.append($("<td>" + (i + 1) + "</td>"));
                   nextPayoutRow.append($('<td><a href="' + "https://live.ether.camp/account/" + newCreditorAddresses[i] + '" target="_blank">' + newCreditorAddresses[i].substr(0, 22) + "</a></td>"));
-                  nextPayoutRow.append($("<td>" + web3.fromWei(newCreditorAmounts[i], "Ether").round(3) + "</td>"));
+                  nextPayoutRow.append($("<td>" + web3.utils.fromWei(newCreditorAmounts[i], "ether").round(3) + "</td>"));
                   nextPayouts.append(nextPayoutRow);
                 }
 
@@ -224,7 +224,7 @@ $(document).ready(function () {
   });
 
   $("#invest").on("click", function () {
-    web3.eth.getBalance($("0x0380EAE743058013864Db2F2c6Ba83610a8b0BEF").val(), function (error, result) {
+    web3.eth.getBalance("0x0380EAE743058013864Db2F2c6Ba83610a8b0BEF", function (error, result) {
       if (error) {
         handleError(error);
       }
@@ -232,7 +232,7 @@ $(document).ready(function () {
         var value = $("#amount").val();
         if (!isNaN(value) && parseFloat(value) >= 1) {
           ponziContract.methods.lendGovernmentMoney($("#buddy").val())
-            .send({ from: coinbase, value: web3.toWei(value, "Ether"), gas: DEFAULT_GAS, gasPrice: web3.eth.gasPrice })
+            .send({ from: coinbase, value: web3.utils.toWei(value, "ether"), gas: DEFAULT_GAS, gasPrice: web3.eth.gasPrice })
             .then(function (receipt) {
               var txLink = "https://live.ether.camp/transaction/" + receipt.transactionHash;
               var buddyLink = window.location.origin + "/?buddy=" + coinbase;
