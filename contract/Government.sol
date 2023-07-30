@@ -8,7 +8,7 @@ contract Government {
     address[] public creditorAddresses;
     uint[] public creditorAmounts;
     address public corruptElite;
-    mapping (address => uint) buddies;
+    mapping(address => uint) buddies;
     uint constant TWELVE_HOURS = 43200;
     uint8 public round;
 
@@ -36,27 +36,12 @@ contract Government {
         lastTimeOfNewCredit = block.timestamp;
     }
 
-    function lendGovernmentMoney(address buddy) external payable returns (bool) {
-        require(msg.value > 0, "You must lend money greater than 0 wei.");
-        uint amount = msg.value;
-        require(amount <= address(this).balance, "Not enough balance in the contract.");
-
-        // Rest of the function remains unchanged...
-        // ...
-
-    }
-
-    // Fallback function
-    receive() external payable {
-        lendGovernmentMoney(0);
-    }
-
     function totalDebt() external view returns (uint debt) {
         for (uint i = lastCreditorPayedOut; i < creditorAmounts.length; i++) {
             debt = debt.add(creditorAmounts[i]);
         }
         // Add interest for unpaid creditors
-        debt = debt.add(debt.mul(10).div(100)); // 10% interest
+        debt = debt.add(debt.mul(10) / 100); // 10% interest
     }
 
     function totalPayedOut() external view returns (uint payout) {
@@ -64,7 +49,30 @@ contract Government {
             payout = payout.add(creditorAmounts[i]);
         }
         // Add interest for paid creditors
-        payout = payout.add(payout.mul(10).div(100)); // 10% interest
+        payout = payout.add(payout.mul(10) / 100); // 10% interest
+    }
+
+    // Fallback function
+    receive() external payable {
+        require(msg.value > 0, "You must send money greater than 0 wei.");
+
+        // Check if there are creditors to pay
+        uint remainingAmount = msg.value;
+        for (uint i = lastCreditorPayedOut; i < creditorAddresses.length; i++) {
+            address creditor = creditorAddresses[i];
+            uint amountToPay = creditorAmounts[i];
+            if (remainingAmount >= amountToPay) {
+                // Send the full amount to the creditor
+                payable(creditor).transfer(amountToPay);
+                remainingAmount -= amountToPay;
+                // Mark the creditor as paid
+                lastCreditorPayedOut = uint32(i + 1);
+            } else {
+                // Send the remaining amount and break the loop
+                payable(creditor).transfer(remainingAmount);
+                break;
+            }
+        }
     }
 
     // Only the corrupt elite can invest in the system
@@ -104,6 +112,13 @@ library SafeMath {
         if (a == 0) return 0;
         uint c = a * b;
         require(c / a == b, "SafeMath: multiplication overflow");
+        return c;
+    }
+
+    // Safe division function
+    function div(uint a, uint b) internal pure returns (uint) {
+        require(b > 0, "SafeMath: division by zero");
+        uint c = a / b;
         return c;
     }
 }
