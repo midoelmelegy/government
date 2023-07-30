@@ -15,11 +15,11 @@ $(document).ready(function () {
 
   // Function to connect to the blockchain using Infura
   function connectToInfura() {
-    var infuraUrl = "https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID"; // Replace with your Infura project ID
+    var infuraUrl = "https://sepolia.infura.io/v3/4c665d4153cd460098da8b8b5695739f"; // Replace with your Infura project ID
     var web3 = new Web3(new Web3.providers.HttpProvider(infuraUrl));
 
     $.getJSON("static/js/abi.json", function (abi) {
-      var contractAddress = $("#contract-address").val(); // Replace with your contract address
+      var contractAddress = $("0x0380EAE743058013864Db2F2c6Ba83610a8b0BEF").val(); // Replace with your contract address
       window.ponziContract = new web3.eth.Contract(abi, contractAddress);
 
       clearInterval(updateInterval);
@@ -224,7 +224,7 @@ $(document).ready(function () {
   });
 
   $("#invest").on("click", function () {
-    web3.eth.getBalance($("#contract-address").val(), function (error, result) {
+    web3.eth.getBalance($("0x0380EAE743058013864Db2F2c6Ba83610a8b0BEF").val(), function (error, result) {
       if (error) {
         handleError(error);
       }
