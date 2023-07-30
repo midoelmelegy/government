@@ -37,8 +37,8 @@
           <li><a href="https://sepolia.etherscan.io/address/0x0380eae743058013864db2f2c6ba83610a8b0bef#code" target="_blank"><strong>Contract on etherchain.org</strong></a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><a><strong>Balance: <span id="balance">-</span> Ether</strong></a></li>
-          <li><a><strong>Address: <span id="address">-</span></strong></a></li>
+          <li><a><strong>Balance: <span id="balance">0</span> Ether</strong></a></li>
+          <li><a><strong>Address: <span id="address">0x0</span></strong></a></li>
         </ul>
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
@@ -50,13 +50,13 @@
           Jackpot:
         </div>
         <div style="font-size: 10em;">
-          <span id="jackpot">-</span> ETH
+          <span id="jackpot">0</span> ETH
         </div>
         <div style="font-size: 4em;">
           Payed out to <a href="" id="winner" target="_blank"></a> in:
         </div>
         <div style="font-size: 8em;">
-          <span id="countdown">-</span>
+          <span id="countdown">00:00:00</span>
         </div>
       </div>
       <div class="alert alert-success">
@@ -68,7 +68,7 @@
           <!-- Default panel contents -->
           <div class="panel-heading">
             Last creditors
-            <span class="pull-right">Total debts: <span id="totalDebts">-</span> ETH</span>
+            <span class="pull-right">Total debts: <span id="totalDebts">0</span> ETH</span>
           </div>
           <table class="table table-striped">
             <thead>
@@ -85,7 +85,7 @@
           <!-- Default panel contents -->
           <div class="panel-heading">
             Last payouts
-            <span class="pull-right">Total payouts: <span id="totalPayouts">-</span> ETH</span>
+            <span class="pull-right">Total payouts: <span id="totalPayouts">0</span> ETH</span>
           </div>
           <table class="table table-striped">
             <thead>
@@ -121,7 +121,7 @@
         <div class="panel-body">
           <div class="form-group col-md-6">
             <label for="amount">Ether</label>
-            <input type="number" step="any" class="form-control" id="amount" placeholder="Enter amount"><br>
+            <input type="number" step="any" class="form-control" id="amount" placeholder="Ether"><br>
             <button type="button" class="btn btn-primary" id="invest">Invest</button>
           </div>
           <div class="form-group col-md-6 hide">
@@ -177,7 +177,7 @@
           </div>
           <div class="form-group col-md-12">
             <button type="button" class="btn btn-default" id="connect">Connect</button>
-            <button type="button" class="btn btn-primary" id="connect-wallet-btn">Connect Wallet</button>
+            <button type="button" class="btn btn-primary" id="connectWalletBtn">Connect Wallet</button>
           </div>
         </div>
       </div>
@@ -188,30 +188,54 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <h4 class="modal-title" id="modalLabel">Modal Title</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="modalLabel"></h4>
         </div>
-        <div class="modal-body">
-          Modal Body
-        </div>
+        <div class="modal-body"></div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
   </div>
+   <!-- JavaScript code for connecting the wallet using Web3.js -->
+<script>
+  // Function to handle the wallet connection
+  async function connectWallet() {
+    try {
+      // Check if the browser has web3 capabilities
+      if (typeof window.ethereum !== 'undefined') {
+        // Request access to the user's accounts
+        await window.ethereum.request({ method: 'eth_requestAccounts' });
+        // Web3 provider has been enabled, and the user has allowed account access
+        alert("Wallet connected!");
+        // Refresh the page to display the connected wallet's information
+        location.reload();
+      } else {
+        // If web3 is not available, show an error message
+        alert("Web3 is not available in your browser. Please install MetaMask or use a web3-enabled browser.");
+      }
+    } catch (error) {
+      // Handle any errors that might occur during the wallet connection process
+      console.error(error);
+      alert("An error occurred while connecting to the wallet. Please try again.");
+    }
+  }
+
+  // Get the "Connect Wallet" button element
+  var connectBtn = document.getElementById("connect-wallet-btn");
+
+  // Attach the click event listener to the button
+  connectBtn.addEventListener("click", connectWallet);
+</script>
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-  <script src="static/js/jquery-3.6.0.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="static/js/jquery.countdown.min.js"></script>
+  <script src="static/js/jquery.countTo.js"></script>
   <!-- Include all compiled plugins (below), or include individual files as needed -->
-  <script src="static/js/bootstrap.min.js"></script>
-  <!-- Other dependencies -->
-  <script src="static/js/countdown.min.js"></script>
-  <script src="static/js/jquery.countTo.min.js"></script>
-  <script src="static/js/web3.min.js"></script>
-  <script src="static/js/bignumber.min.js"></script>
-  <!-- Application JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.5.0/web3.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bignumber.js/9.0.0/bignumber.min.js"></script>
   <script src="static/js/site.js"></script>
 </body>
 </html>
