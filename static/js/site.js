@@ -15,11 +15,11 @@ $(document).ready(function () {
 
   // Function to connect to the blockchain using Infura
   function connectToInfura() {
-    var infuraUrl = "https://sepolia.infura.io/v3/4c665d4153cd460098da8b8b5695739f"; // Replace with your Infura project ID
+    var infuraUrl = "https://goerli.infura.io/v3/4c665d4153cd460098da8b8b5695739f"; // Replace with your Infura project ID
     var web3 = new Web3(new Web3.providers.HttpProvider(infuraUrl));
 
     $.getJSON("static/js/abi.json", function (abi) {
-      var contractAddress = "0x0380EAE743058013864Db2F2c6Ba83610a8b0BEF"; // Replace with your contract address
+      var contractAddress = "0xE5b396D80a3C5B075109560D9f350F0e2c3de06b"; // Replace with your contract address
       window.ponziContract = new web3.eth.Contract(abi, contractAddress);
 
       clearInterval(updateInterval);
