@@ -33,12 +33,8 @@
       </div>
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse">
-        <ul class="nav navbar-nav">
-          <li><button id="connect-wallet-btn" class="btn btn-primary">Connect Wallet</button></li>
-        </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><a><strong>Balance: <span id="balance">0</span> Ether</strong></a></li>
-          <li><a><strong>Address: <span id="address">0x0</span></strong></a></li>
+          <li><button id="connect-wallet-btn" class="btn btn-primary">Connect Wallet</button></li>
         </ul>
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
@@ -57,6 +53,25 @@
         </div>
         <div style="font-size: 8em;">
           <span id="countdown">00:00:00</span>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+          Connection
+          <a class="btn-sm pull-right btn-default" role="button" data-toggle="collapse" href="#collapse" aria-expanded="false" aria-controls="collapse">
+            show
+          </a>
+        </div>
+        <div class="panel-body collapse clearfix" id="collapse">
+          <div class="form-group col-md-6">
+              <a><strong>Address: <span id="address">0x0</span></strong></a>
+            </div>
+            <div class="form-group col-md-6">
+              <a><strong>Balance: <span id="balance">0</span> Ether</strong></a>
+            </div>
+            <div class="form-group col-md-12">
+            <button id="connect-wallet-btn" class="btn btn-primary">Connect Wallet</button>
+          </div>
         </div>
       </div>
       <div class="alert alert-success">
