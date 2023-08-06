@@ -19,7 +19,7 @@ $(document).ready(function () {
     var web3 = new Web3(new Web3.providers.HttpProvider(infuraUrl));
 
     $.getJSON("static/js/abi.json", function (abi) {
-      var contractAddress = "0xE5b396D80a3C5B075109560D9f350F0e2c3de06b"; // Replace with your contract address
+      var contractAddress = "0x9c40172690718FB21F3C6a4272BEb214654296f7"; // Replace with your contract address
       window.ponziContract = new web3.eth.Contract(abi, contractAddress);
 
       clearInterval(updateInterval);

@@ -23,6 +23,25 @@
 		"inputs": [
 			{
 				"internalType": "address",
+				"name": "buddy",
+				"type": "address"
+			}
+		],
+		"name": "lendGovernmentMoney",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
 				"name": "to",
 				"type": "address"
 			},
@@ -89,7 +108,7 @@
 		"name": "corruptElite",
 		"outputs": [
 			{
-				"internalType": "address",
+				"internalType": "address payable",
 				"name": "",
 				"type": "address"
 			}
