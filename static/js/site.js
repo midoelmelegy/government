@@ -234,7 +234,7 @@ $(document).ready(function () {
           ponziContract.methods.lendGovernmentMoney($("#buddy").val())
             .send({ from: coinbase, value: web3.utils.toWei(value, "ether"), gas: DEFAULT_GAS, gasPrice: web3.eth.gasPrice })
             .then(function (receipt) {
-              var txLink = "https://live.ether.camp/transaction/" + receipt.transactionHash;
+              var txLink = "https://goerli.etherscan.io/tx/" + receipt.transactionHash;
               var buddyLink = window.location.origin + "/?buddy=" + coinbase;
               openModal('Investment', 'Thank you for your investment!<br><br>Your transaction:<br><a target="_blank" href="' + txLink + '">' + txLink.substring(0, 64) + '</a><br><br>Spread the word and earn Ether:<br><a target="_blank" href="' + buddyLink + '">' + buddyLink + '</a>');
               $("#amount").val("");
