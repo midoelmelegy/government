@@ -34,7 +34,7 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
-          <li><a href="https://goerli.etherscan.io/address/0x9c40172690718FB21F3C6a4272BEb214654296f7#code" target="_blank"><strong>Contract on etherchain.org</strong></a></li>
+          <li><button id="connect-wallet-btn" class="btn btn-primary">Connect Wallet</button></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li><a><strong>Balance: <span id="balance">0</span> Ether</strong></a></li>
@@ -166,16 +166,7 @@
           </a>
         </div>
         <div class="panel-body collapse clearfix" id="collapse">
-          <div class="form-group col-md-6">
-            <label for="ethereum-node">Node</label>
-            <input type="text" class="form-control" id="ethereum-node" placeholder="Node" value="http://localhost:8545">
-          </div>
-          <div class="form-group col-md-6">
-            <label for="contract-address">Contract-address</label>
-            <input type="text" class="form-control" id="contract-address" placeholder="Contract-address" value="0x0380EAE743058013864Db2F2c6Ba83610a8b0BEF">
-          </div>
           <div class="form-group col-md-12">
-            <button type="button" class="btn btn-default" id="connect">Connect</button>
             <button id="connect-wallet-btn" class="btn btn-primary">Connect Wallet</button>
           </div>
         </div>
