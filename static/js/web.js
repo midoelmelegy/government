@@ -218,8 +218,7 @@ $(document).ready(function () {
         }
       
         updateInterval = setInterval(update, 10000);
-        update();
-      });      
+        update();   
   
     $("#connect").on("click", function () {
       openModal('Connecting', 'Establishing connection. Please close window.');
