@@ -123,7 +123,7 @@ $(document).ready(function () {
       }
       else {
         var oldCountdown = countdown;
-        countdown = parseInt(new BigNumber(result));
+        countdown = parseInt(new fromWei(result));
         if (oldCountdown != countdown) {
           $("#countdown").countdown(new Date((countdown + TWELVE_HOURS) * 1000), function (event) {
             $(this).text(
