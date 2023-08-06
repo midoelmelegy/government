@@ -73,6 +73,10 @@ $(document).ready(function () {
     }
   }
 
+  function fromWei(value, unit) {
+    return web3.utils.fromWei(value, unit);
+  }
+
   function update() {
     // update coinbase and balance
     window.ethereum.request({ method: 'eth_requestAccounts' }).then(function (accounts) {
