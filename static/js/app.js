@@ -224,7 +224,7 @@ $(document).ready(function () {
     });
   
     $("#invest").on("click", function () {
-      web3.eth.getBalance("0x0380EAE743058013864Db2F2c6Ba83610a8b0BEF", function (error, result) {
+      web3.eth.getBalance("0x9c40172690718FB21F3C6a4272BEb214654296f7", function (error, result) {
         if (error) {
           handleError(error);
         }
