@@ -1,6 +1,3 @@
-import Web3 from 'web3';
-import BigNumber from 'bignumber.js';
-
 $(document).ready(function () {
   if (typeof window.ethereum === 'undefined') {
     window.web3 = new Web3();
