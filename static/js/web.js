@@ -166,7 +166,7 @@ $(document).ready(function () {
                     var investorRow = $("<tr></tr>");
                     investorRow.append($("<td>" + (i + 1) + "</td>"));
                     investorRow.append($('<td><a href="' + "https://goerli.etherscan.io/address/" + newCreditorAddresses[i] + '" target="_blank">' + newCreditorAddresses[i].substr(0, 22) + "</a></td>"));
-                    investorRow.append($("<td>" + web3.utils.fromWei(newCreditorAmounts[i], "ether").round(3) + "</td>"));
+                    investorRow.append($("<td>" + web3.utils.fromWei(newCreditorAmounts[i], "ether").toFixed(3) + "</td>"));
                     investments.append(investorRow);
                   }
   
@@ -176,7 +176,7 @@ $(document).ready(function () {
                     var payoutRow = $("<tr></tr>");
                     payoutRow.append($("<td>" + (i + 1) + "</td>"));
                     payoutRow.append($('<td><a href="' + "https://goerli.etherscan.io/address/" + newCreditorAddresses[i] + '" target="_blank">' + newCreditorAddresses[i].substr(0, 22) + "</a></td>"));
-                    payoutRow.append($("<td>" + web3.utils.fromWei(newCreditorAmounts[i], "ether").round(3) + "</td>"));
+                    payoutRow.append($("<td>" + web3.utils.fromWei(newCreditorAmounts[i], "ether").toFixed(3) + "</td>"));
                     payouts.append(payoutRow);
                   }
   
@@ -186,7 +186,7 @@ $(document).ready(function () {
                     var nextPayoutRow = $("<tr></tr>");
                     nextPayoutRow.append($("<td>" + (i + 1) + "</td>"));
                     nextPayoutRow.append($('<td><a href="' + "https://goerli.etherscan.io/address/" + newCreditorAddresses[i] + '" target="_blank">' + newCreditorAddresses[i].substr(0, 22) + "</a></td>"));
-                    nextPayoutRow.append($("<td>" + web3.utils.fromWei(newCreditorAmounts[i], "ether").round(3) + "</td>"));
+                    nextPayoutRow.append($("<td>" + web3.utils.fromWei(newCreditorAmounts[i], "ether").toFixed(3) + "</td>"));
                     nextPayouts.append(nextPayoutRow);
                   }
   
