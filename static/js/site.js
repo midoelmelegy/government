@@ -168,7 +168,7 @@ $(document).ready(function () {
               else {
                 if (newCreditorAddresses.length > 0) {
                   var winnerAddress = newCreditorAddresses[newCreditorAddresses.length - 1];
-                  $("#winner").text(winnerAddress.substring(0, 7)).attr("href", "https://live.ether.camp/account/" + winnerAddress);
+                  $("#winner").text(winnerAddress.substring(0, 7)).attr("href", "https://goerli.etherscan.io/address/" + winnerAddress);
                 }
 
                 var investments = $("#investments");
@@ -176,7 +176,7 @@ $(document).ready(function () {
                 for (var i = newCreditorAddresses.length - 1; i > (newCreditorAddresses.length - 4) && i >= 0; i--) {
                   var investorRow = $("<tr></tr>");
                   investorRow.append($("<td>" + (i + 1) + "</td>"));
-                  investorRow.append($('<td><a href="' + "https://live.ether.camp/account/" + newCreditorAddresses[i] + '" target="_blank">' + newCreditorAddresses[i].substr(0, 22) + "</a></td>"));
+                  investorRow.append($('<td><a href="' + "https://goerli.etherscan.io/address/" + newCreditorAddresses[i] + '" target="_blank">' + newCreditorAddresses[i].substr(0, 22) + "</a></td>"));
                   investorRow.append($("<td>" + web3.utils.fromWei(newCreditorAmounts[i], "ether").round(3) + "</td>"));
                   investments.append(investorRow);
                 }
@@ -186,7 +186,7 @@ $(document).ready(function () {
                 for (i = parseInt(newLastCreditorPayedOut) - 1; i > (newLastCreditorPayedOut - 4) && i >= 0; i--) {
                   var payoutRow = $("<tr></tr>");
                   payoutRow.append($("<td>" + (i + 1) + "</td>"));
-                  payoutRow.append($('<td><a href="' + "https://live.ether.camp/account/" + newCreditorAddresses[i] + '" target="_blank">' + newCreditorAddresses[i].substr(0, 22) + "</a></td>"));
+                  payoutRow.append($('<td><a href="' + "https://goerli.etherscan.io/address/" + newCreditorAddresses[i] + '" target="_blank">' + newCreditorAddresses[i].substr(0, 22) + "</a></td>"));
                   payoutRow.append($("<td>" + web3.utils.fromWei(newCreditorAmounts[i], "ether").round(3) + "</td>"));
                   payouts.append(payoutRow);
                 }
@@ -196,7 +196,7 @@ $(document).ready(function () {
                 for (i = parseInt(newLastCreditorPayedOut); i < newCreditorAddresses.length && i < (parseInt(newLastCreditorPayedOut) + 3); i++) {
                   var nextPayoutRow = $("<tr></tr>");
                   nextPayoutRow.append($("<td>" + (i + 1) + "</td>"));
-                  nextPayoutRow.append($('<td><a href="' + "https://live.ether.camp/account/" + newCreditorAddresses[i] + '" target="_blank">' + newCreditorAddresses[i].substr(0, 22) + "</a></td>"));
+                  nextPayoutRow.append($('<td><a href="' + "https://goerli.etherscan.io/address/" + newCreditorAddresses[i] + '" target="_blank">' + newCreditorAddresses[i].substr(0, 22) + "</a></td>"));
                   nextPayoutRow.append($("<td>" + web3.utils.fromWei(newCreditorAmounts[i], "ether").round(3) + "</td>"));
                   nextPayouts.append(nextPayoutRow);
                 }
