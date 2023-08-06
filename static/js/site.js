@@ -73,10 +73,6 @@ $(document).ready(function () {
     }
   }
 
-  function fromWei(value, unit) {
-    return web3.utils.fromWei(value, unit);
-  }
-
   function update() {
     // update coinbase and balance
     window.ethereum.request({ method: 'eth_requestAccounts' }).then(function (accounts) {
@@ -123,7 +119,7 @@ $(document).ready(function () {
       }
       else {
         var oldCountdown = countdown;
-        countdown = parseInt(new fromWei(result));
+        countdown = parseInt(new BigNumber(result));
         if (oldCountdown != countdown) {
           $("#countdown").countdown(new Date((countdown + TWELVE_HOURS) * 1000), function (event) {
             $(this).text(
