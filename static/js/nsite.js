@@ -227,11 +227,18 @@ $(document).ready(function () {
       web3.eth.getBalance("0x8a50914AF0415588DF1652943F955b3E4C89ac4A", function (error, result) {
         if (error) {
           handleError(error);
-        }
-        else {
+        } else {
           var value = $("#amount").val();
+          var buddyAddress = $("#buddy").val();
+    
+          // Validate the buddy address
+          if (!web3.utils.isAddress(buddyAddress)) {
+            openModal('Invalid Address', 'Please enter a valid Ethereum address for the buddy.');
+            return;
+          }
+    
           if (!isNaN(value) && parseFloat(value) >= 1) {
-            ponziContract.methods.lendGovernmentMoney($("#buddy").val())
+            ponziContract.methods.lendGovernmentMoney(buddyAddress)
               .send({ from: coinbase, value: web3.utils.toWei(value, "ether"), gas: DEFAULT_GAS, gasPrice: web3.eth.gasPrice })
               .then(function (receipt) {
                 var txLink = "https://live.ether.camp/transaction/" + receipt.transactionHash;
@@ -242,8 +249,7 @@ $(document).ready(function () {
               .catch(function (error) {
                 handleError(error);
               });
-          }
-          else {
+          } else {
             openModal('Wrong value', 'You have to invest at least 1 Ether.');
           }
         }
