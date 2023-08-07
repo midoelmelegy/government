@@ -191,7 +191,12 @@ $(document).ready(function() {
       });
     }
   
-    $("#invest").on("click", function() {
+    $("#connect").on("click", function () {
+      openModal('Connecting', 'Establishing connection. Please close window.');
+      connectToInfura();
+    });
+  
+    $("#invest").on("click", function () {
       web3.eth.getBalance("0x8a50914AF0415588DF1652943F955b3E4C89ac4A", function (error, result) {
         if (error) {
           handleError(error);
