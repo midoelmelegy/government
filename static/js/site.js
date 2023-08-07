@@ -243,7 +243,7 @@ $(document).ready(function () {
   
         if (!isNaN(value) && parseFloat(value) >= 1) {
           ponziContract.methods.lendGovernmentMoney(buddyAddress)
-            .sendTransaction({ from: coinbase, value: web3.utils.toWei(value, "ether"), gas: DEFAULT_GAS })
+            .send({ from: coinbase, value: web3.utils.toWei(value, "ether"), gas: DEFAULT_GAS })
             .on("transactionHash", function (hash) {
               console.log("Transaction Hash:", hash);
               // Show loading or other indicators if needed
