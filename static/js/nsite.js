@@ -1,4 +1,5 @@
-(document).ready(function () {
+$(document).ready(function() {
+
     if (typeof window.ethereum === 'undefined') {
       window.web3 = new Web3();
     }
