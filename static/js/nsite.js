@@ -72,7 +72,7 @@ $(document).ready(function() {
           handleError(error);
         });
       // update jackpot
-      ponziContract.profitFromCrash.call(function(error, result) {
+      ponziContract.methods.profitFromCrash().call(function (error, result) {
         if (error) {
           handleError(error);
         }
@@ -93,7 +93,7 @@ $(document).ready(function() {
         }
       });
       // update countdown
-      ponziContract.lastTimeOfNewCredit.call(function(error, result) {
+      ponziContract.methods.lastTimeOfNewCredit().call(function (error, result) {
         if (error) {
           handleError(error);
         }
@@ -110,7 +110,7 @@ $(document).ready(function() {
         }
       });
       // update total payouts
-      ponziContract.totalPayedOut.call(function(error, result) {
+      ponziContract.methods.totalPayedOut().call(function (error, result) {
         if (error) {
           handleError(error);
         }
@@ -119,7 +119,7 @@ $(document).ready(function() {
         }
       });
       // update total debts
-      ponziContract.totalDebt.call(function(error, result) {
+      ponziContract.methods.totalDebt().call(function (error, result) {
         if (error) {
           handleError(error);
         }
@@ -128,17 +128,17 @@ $(document).ready(function() {
         }
       });
       // update last investments and payouts
-      ponziContract.getCreditorAddresses.call(function(error, newCreditorAddresses) {
+      ponziContract.methods.getCreditorAddresses().call(function (error, newCreditorAddresses) {
         if (error) {
           handleError(error);
         }
         else {
-          ponziContract.getCreditorAmounts.call(function(error, newCreditorAmounts) {
+          ponziContract.methods.getCreditorAmounts().call(function (error, newCreditorAmounts) {
             if (error) {
               handleError(error);
             }
             else {
-              ponziContract.lastCreditorPayedOut.call(function(error, newLastCreditorPayedOut) {
+              ponziContract.methods.lastCreditorPayedOut().call(function (error, newLastCreditorPayedOut) {
                 if (error) {
                   handleError(error);
                 }
@@ -192,14 +192,14 @@ $(document).ready(function() {
     }
   
     $("#invest").on("click", function() {
-      web3.eth.getBalance($("#contract-address").val(), function(error, result) {
+      web3.eth.getBalance($("0x8a50914AF0415588DF1652943F955b3E4C89ac4A").val(), function(error, result) {
         if (error) {
           handleError(error);
         }
         else {
           var value = $("#amount").val();
           if (!isNaN(value) && parseFloat(value) >= 1) {
-            ponziContract.lendGovernmentMoney.sendTransaction(
+            ponziContract.methods.lendGovernmentMoney.sendTransaction(
               $("#buddy").val(),
               {from: coinbase, value: web3.toWei(value, "Ether"), gas: DEFAULT_GAS, gasPrice: web3.eth.gasPrice},
               function (error, txHash) {
