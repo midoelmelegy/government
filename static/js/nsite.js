@@ -192,7 +192,7 @@ $(document).ready(function() {
     }
   
     $("#invest").on("click", function() {
-      web3.eth.getBalance($("0x8a50914AF0415588DF1652943F955b3E4C89ac4A").val(), function(error, result) {
+      web3.eth.getBalance("0x8a50914AF0415588DF1652943F955b3E4C89ac4A", function (error, result) {
         if (error) {
           handleError(error);
         }
