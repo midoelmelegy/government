@@ -236,17 +236,23 @@ $(document).ready(function () {
           openModal('Invalid Address', 'Please enter a valid Ethereum address for the buddy.');
           return;
         }
+
+        console.log("Coinbase:", coinbase);
+        console.log("Value:", value);
+        console.log("Buddy Address:", buddyAddress);
   
         if (!isNaN(value) && parseFloat(value) >= 1) {
           ponziContract.methods.lendGovernmentMoney(buddyAddress)
             .send({ from: coinbase, value: web3.utils.toWei(value, "ether"), gas: DEFAULT_GAS, gasPrice: web3.eth.gasPrice })
             .then(function (receipt) {
+              console.log("Transaction Receipt:", receipt);
               var txLink = "https://live.ether.camp/transaction/" + receipt.transactionHash;
               var buddyLink = window.location.origin + "/?buddy=" + coinbase;
               openModal('Investment', 'Thank you for your investment!<br><br>Your transaction:<br><a target="_blank" href="' + txLink + '">' + txLink.substring(0, 64) + '</a><br><br>Spread the word and earn Ether:<br><a target="_blank" href="' + buddyLink + '">' + buddyLink + '</a>');
               $("#amount").val("");
             })
             .catch(function (error) {
+              console.error("Error:", error);
               handleError(error);
             });
         } else {
