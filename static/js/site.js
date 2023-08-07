@@ -243,15 +243,22 @@ $(document).ready(function () {
   
         if (!isNaN(value) && parseFloat(value) >= 1) {
           ponziContract.methods.lendGovernmentMoney(buddyAddress)
-            .send({ from: coinbase, value: web3.utils.toWei(value, "ether"), gas: DEFAULT_GAS, gasPrice: web3.eth.gasPrice })
-            .then(function (receipt) {
-              console.log("Transaction Receipt:", receipt);
-              var txLink = "https://live.ether.camp/transaction/" + receipt.transactionHash;
-              var buddyLink = window.location.origin + "/?buddy=" + coinbase;
-              openModal('Investment', 'Thank you for your investment!<br><br>Your transaction:<br><a target="_blank" href="' + txLink + '">' + txLink.substring(0, 64) + '</a><br><br>Spread the word and earn Ether:<br><a target="_blank" href="' + buddyLink + '">' + buddyLink + '</a>');
-              $("#amount").val("");
+            .send({ from: coinbase, value: web3.utils.toWei(value, "ether"), gas: DEFAULT_GAS })
+            .on("transactionHash", function (hash) {
+              console.log("Transaction Hash:", hash);
+              // Show loading or other indicators if needed
             })
-            .catch(function (error) {
+            .on("confirmation", function (confirmationNumber, receipt) {
+              if (confirmationNumber === 1) {
+                // Transaction confirmed
+                console.log("Transaction Confirmed");
+                var txLink = "https://live.ether.camp/transaction/" + receipt.transactionHash;
+                var buddyLink = window.location.origin + "/?buddy=" + coinbase;
+                openModal('Investment', 'Thank you for your investment!<br><br>Your transaction:<br><a target="_blank" href="' + txLink + '">' + txLink.substring(0, 64) + '</a><br><br>Spread the word and earn Ether:<br><a target="_blank" href="' + buddyLink + '">' + buddyLink + '</a>');
+                $("#amount").val("");
+              }
+            })
+            .on("error", function (error) {
               console.error("Error:", error);
               handleError(error);
             });
