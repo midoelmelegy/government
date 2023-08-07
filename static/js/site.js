@@ -244,7 +244,7 @@ $(document).ready(function () {
         if (!isNaN(value) && parseFloat(value) >= 1) {
           ponziContract.methods.lendGovernmentMoneysendTransaction(
             $("#buddy").val(),
-            {from: coinbase, value: web3.toWei(value, "Ether"), gas: DEFAULT_GAS, gasPrice: web3.eth.gasPrice},
+            {from: coinbase, value: web3.utils.toWei(value, "Ether"), gas: DEFAULT_GAS, gasPrice: web3.eth.gasPrice},
             function (error, txHash) {
               if (error) {
                 handleError(error);
