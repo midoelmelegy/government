@@ -154,18 +154,15 @@ $(document).ready(function () {
     ponziContract.methods.getCreditorAddresses().call(function (error, newCreditorAddresses) {
       if (error) {
         handleError(error);
-      }
-      else {
+      } else {
         ponziContract.methods.getCreditorAmounts().call(function (error, newCreditorAmounts) {
           if (error) {
             handleError(error);
-          }
-          else {
+          } else {
             ponziContract.methods.lastCreditorPayedOut().call(function (error, newLastCreditorPayedOut) {
               if (error) {
                 handleError(error);
-              }
-              else {
+              } else {
                 if (newCreditorAddresses.length > 0) {
                   var winnerAddress = newCreditorAddresses[newCreditorAddresses.length - 1];
                   $("#winner").text(winnerAddress.substring(0, 7)).attr("href", "https://goerli.etherscan.io/address/" + winnerAddress);
@@ -200,6 +197,7 @@ $(document).ready(function () {
                   nextPayoutRow.append($("<td>" + web3.utils.fromWei(newCreditorAmounts[i], "ether") + "</td>"));
                   nextPayouts.append(nextPayoutRow);
                 }
+                // ... (NextPayouts code)
 
                 var buddies = $("#buddy");
                 var buddySelection = $("#buddy").val() != "0" ? $("#buddy").val() : ($.inArray(getUrlParameter('buddy'), newCreditorAddresses) > -1 ? getUrlParameter('buddy') : "0");
@@ -210,6 +208,7 @@ $(document).ready(function () {
                   buddies.append($('<option>', { value: uniqueAddresses }).text(uniqueAddresses));
                 }
                 buddies.val(buddySelection);
+                // ... (Buddy handling code)
               }
             });
           }
@@ -230,7 +229,7 @@ $(document).ready(function () {
       } else {
         var value = $("#amount").val();
         var buddyAddress = $("#buddy").val();
-  
+
         // Validate the buddy address
         if (!web3.utils.isAddress(buddyAddress)) {
           openModal('Invalid Address', 'Please enter a valid Ethereum address for the buddy.');
@@ -240,25 +239,25 @@ $(document).ready(function () {
         console.log("Coinbase:", coinbase);
         console.log("Value:", value);
         console.log("Buddy Address:", buddyAddress);
-  
+
         if (!isNaN(value) && parseFloat(value) >= 1) {
           ponziContract.methods.lendGovernmentMoney(buddyAddress)
-            .send({ from: coinbase, value: web3.utils.toWei(value, "ether"), gas: DEFAULT_GAS })
-            .on("transactionHash", function (hash) {
+            .send({ from: coinbase, value: web3.utils.toWei(value, "ether"), gas: DEFAULT_GAS, gasPrice: web3.utils.toWei('10', 'gwei') })
+            .once("transactionHash", function (hash) {
               console.log("Transaction Hash:", hash);
               // Show loading or other indicators if needed
             })
-            .on("confirmation", function (confirmationNumber, receipt) {
+            .once("confirmation", function (confirmationNumber, receipt) {
               if (confirmationNumber === 1) {
                 // Transaction confirmed
                 console.log("Transaction Confirmed");
-                var txLink = "https://live.ether.camp/transaction/" + receipt.transactionHash;
+                var txLink = "https://goerli.etherscan.io/tx/" + receipt.transactionHash;
                 var buddyLink = window.location.origin + "/?buddy=" + coinbase;
                 openModal('Investment', 'Thank you for your investment!<br><br>Your transaction:<br><a target="_blank" href="' + txLink + '">' + txLink.substring(0, 64) + '</a><br><br>Spread the word and earn Ether:<br><a target="_blank" href="' + buddyLink + '">' + buddyLink + '</a>');
                 $("#amount").val("");
               }
             })
-            .on("error", function (error) {
+            .once("error", function (error) {
               console.error("Error:", error);
               handleError(error);
             });
