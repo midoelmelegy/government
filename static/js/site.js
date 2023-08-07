@@ -16,11 +16,11 @@ $(document).ready(function () {
   // Function to connect to the blockchain using Infura
   function connectToInfura() {
     var infuraUrl = "https://goerli.infura.io/v3/4c665d4153cd460098da8b8b5695739f"; // Replace with your Infura project ID
-    var web3 = new Web3(new Web3.providers.HttpProvider(infuraUrl));
+    var web3Instance = new Web3(new Web3.providers.HttpProvider(infuraUrl));
 
     $.getJSON("static/js/abi.json", function (abi) {
-      var contractAddress = "0x9c40172690718FB21F3C6a4272BEb214654296f7"; // Replace with your contract address
-      window.ponziContract = new web3.eth.Contract(abi, contractAddress);
+      var contractAddress = "0x43c84a29a5ea1d5a0a459e2f53a6b017725591fc"; // Replace with your contract address
+      window.ponziContract = new web3Instance.eth.Contract(abi, contractAddress);
 
       clearInterval(updateInterval);
       updateInterval = setInterval(update, 10000); // every 10s
@@ -119,7 +119,7 @@ $(document).ready(function () {
       }
       else {
         var oldCountdown = countdown;
-        countdown = parseInt(new BigNumber(result));
+        countdown = parseInt(result); // BigNumber conversion not needed
         if (oldCountdown != countdown) {
           $("#countdown").countdown(new Date((countdown + TWELVE_HOURS) * 1000), function (event) {
             $(this).text(
@@ -177,7 +177,7 @@ $(document).ready(function () {
                   var investorRow = $("<tr></tr>");
                   investorRow.append($("<td>" + (i + 1) + "</td>"));
                   investorRow.append($('<td><a href="' + "https://goerli.etherscan.io/address/" + newCreditorAddresses[i] + '" target="_blank">' + newCreditorAddresses[i].substr(0, 22) + "</a></td>"));
-                  investorRow.append($("<td>" + web3.utils.fromWei(newCreditorAmounts[i], "ether").toFixed(3) + "</td>"));
+                  investorRow.append($("<td>" + web3.utils.fromWei(newCreditorAmounts[i], "ether") + "</td>"));
                   investments.append(investorRow);
                 }
 
@@ -187,7 +187,7 @@ $(document).ready(function () {
                   var payoutRow = $("<tr></tr>");
                   payoutRow.append($("<td>" + (i + 1) + "</td>"));
                   payoutRow.append($('<td><a href="' + "https://goerli.etherscan.io/address/" + newCreditorAddresses[i] + '" target="_blank">' + newCreditorAddresses[i].substr(0, 22) + "</a></td>"));
-                  payoutRow.append($("<td>" + web3.utils.fromWei(newCreditorAmounts[i], "ether").toFixed(3) + "</td>"));
+                  payoutRow.append($("<td>" + web3.utils.fromWei(newCreditorAmounts[i], "ether") + "</td>"));
                   payouts.append(payoutRow);
                 }
 
@@ -197,7 +197,7 @@ $(document).ready(function () {
                   var nextPayoutRow = $("<tr></tr>");
                   nextPayoutRow.append($("<td>" + (i + 1) + "</td>"));
                   nextPayoutRow.append($('<td><a href="' + "https://goerli.etherscan.io/address/" + newCreditorAddresses[i] + '" target="_blank">' + newCreditorAddresses[i].substr(0, 22) + "</a></td>"));
-                  nextPayoutRow.append($("<td>" + web3.utils.fromWei(newCreditorAmounts[i], "ether").toFixed(3) + "</td>"));
+                  nextPayoutRow.append($("<td>" + web3.utils.fromWei(newCreditorAmounts[i], "ether") + "</td>"));
                   nextPayouts.append(nextPayoutRow);
                 }
 
@@ -224,17 +224,24 @@ $(document).ready(function () {
   });
 
   $("#invest").on("click", function () {
-    web3.eth.getBalance("0x9c40172690718FB21F3C6a4272BEb214654296f7", function (error, result) {
+    web3.eth.getBalance("0x43c84a29a5ea1d5a0a459e2f53a6b017725591fc", function (error, result) {
       if (error) {
         handleError(error);
-      }
-      else {
+      } else {
         var value = $("#amount").val();
+        var buddyAddress = $("#buddy").val();
+  
+        // Validate the buddy address
+        if (!web3.utils.isAddress(buddyAddress)) {
+          openModal('Invalid Address', 'Please enter a valid Ethereum address for the buddy.');
+          return;
+        }
+  
         if (!isNaN(value) && parseFloat(value) >= 1) {
-          ponziContract.methods.lendGovernmentMoney($("#buddy").val())
+          ponziContract.methods.lendGovernmentMoney(buddyAddress)
             .send({ from: coinbase, value: web3.utils.toWei(value, "ether"), gas: DEFAULT_GAS, gasPrice: web3.eth.gasPrice })
             .then(function (receipt) {
-              var txLink = "https://goerli.etherscan.io/tx/" + receipt.transactionHash;
+              var txLink = "https://live.ether.camp/transaction/" + receipt.transactionHash;
               var buddyLink = window.location.origin + "/?buddy=" + coinbase;
               openModal('Investment', 'Thank you for your investment!<br><br>Your transaction:<br><a target="_blank" href="' + txLink + '">' + txLink.substring(0, 64) + '</a><br><br>Spread the word and earn Ether:<br><a target="_blank" href="' + buddyLink + '">' + buddyLink + '</a>');
               $("#amount").val("");
@@ -242,8 +249,7 @@ $(document).ready(function () {
             .catch(function (error) {
               handleError(error);
             });
-        }
-        else {
+        } else {
           openModal('Wrong value', 'You have to invest at least 1 Ether.');
         }
       }
