@@ -229,26 +229,22 @@ $(document).ready(function () {
           handleError(error);
         }
         else {
-        var value = $("#amount").val();
-        if (!isNaN(value) && parseFloat(value) >= 1) {
-          ponziContract.methods.lendGovernmentMoney.sendTransaction(
-            $("#buddy").val(),
-            {from: coinbase, value: web3.toWei(value, "Ether"), gas: DEFAULT_GAS, gasPrice: web3.eth.gasPrice},
-            function (error, txHash) {
-              if (error) {
-                handleError(error);
-              }
-              else {
-                var txLink = "https://live.ether.camp/transaction/" + txHash;
+          var value = $("#amount").val();
+          if (!isNaN(value) && parseFloat(value) >= 1) {
+            ponziContract.methods.lendGovernmentMoney($("#buddy").val())
+              .send({ from: coinbase, value: web3.utils.toWei(value, "ether"), gas: DEFAULT_GAS, gasPrice: web3.eth.gasPrice })
+              .then(function (receipt) {
+                var txLink = "https://live.ether.camp/transaction/" + receipt.transactionHash;
                 var buddyLink = window.location.origin + "/?buddy=" + coinbase;
                 openModal('Investment', 'Thank you for your investment!<br><br>Your transaction:<br><a target="_blank" href="' + txLink + '">' + txLink.substring(0, 64) + '</a><br><br>Spread the word and earn Ether:<br><a target="_blank" href="' + buddyLink + '">' + buddyLink + '</a>');
                 $("#amount").val("");
-              }
-            }
-          );
-        }
-        else {
-          openModal('Wrong value', 'You have to invest at least 1 Ether.');
+              })
+              .catch(function (error) {
+                handleError(error);
+              });
+          }
+          else {
+            openModal('Wrong value', 'You have to invest at least 1 Ether.');
           }
         }
       });
