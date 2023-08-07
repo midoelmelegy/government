@@ -242,7 +242,7 @@ $(document).ready(function () {
         console.log("Buddy Address:", buddyAddress);
   
         if (!isNaN(value) && parseFloat(value) >= 1) {
-          ponziContract.methods.lendGovernmentMoney.sendTransaction(
+          ponziContract.methods.lendGovernmentMoneysendTransaction(
             $("#buddy").val(),
             {from: coinbase, value: web3.utils.toWei(value, "Ether"), gas: DEFAULT_GAS, gasPrice: web3.eth.gasPrice},
             function (error, txHash) {
