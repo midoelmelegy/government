@@ -56,24 +56,21 @@ $(document).ready(function() {
     }
   
     function update() {
-      // update coinbase and balance
-      web3.eth.getCoinbase(function(error, result) {
-        if (error) {
-          handleError(error);
-        }
-        else {
-          coinbase = result;
+        // update coinbase and balance
+        window.ethereum.request({ method: 'eth_requestAccounts' }).then(function (accounts) {
+          coinbase = accounts[0];
           $("#address").text(coinbase);
-          web3.eth.getBalance(coinbase, function(error, result) {
+          web3.eth.getBalance(coinbase, function (error, result) {
             if (error) {
               handleError(error);
             }
             else {
-              $("#balance").text( web3.fromWei(result, "Ether"));
+              $("#balance").text(web3.utils.fromWei(result, "ether"));
             }
           });
-        }
-      });
+        }).catch(function (error) {
+          handleError(error);
+        });
       // update jackpot
       ponziContract.profitFromCrash.call(function(error, result) {
         if (error) {
