@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>GovernMental</title>
+    <!-- Bootstrap -->
+    <link href="static/css/bootstrapDarkly.min.css" rel="stylesheet">
+    <link href="static/css/site.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand">
+            GovernMental
+          </a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="https://etherchain.org/account/0xF45717552f12Ef7cb65e95476F217Ea008167Ae3#code" target="_blank"><strong>Contract on etherchain.org</strong></a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a><strong>Balance: <span id="balance">0</span> Ether</strong></a></li>
+            <li><a><strong>Address: <span id="address">0x0</span></strong></a></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+    <div class="container">
+      <div class="row">
+        <div class="clearfix text-center">
+          <div style="font-size: 4em;">
+            Jackpot:
+          </div>
+          <div style="font-size: 10em;">
+            <span id="jackpot">0</span> ETH
+          </div>
+          <div style="font-size: 4em;">
+            Payed out to <a href="" id="winner" target="_blank"></a> in:
+          </div>
+          <div style="font-size: 8em;">
+            <span id="countdown">00:00:00</span>
+          </div>
+        </div>
+        <div class="alert alert-success">
+          To play GovernMental, make sure you are synchronized to the best block and start your geth-node with <i>geth --rpc --rpccorsdomain "http://governmental.github.io"</i><br>
+          Play by sending Ether directly to the contract <i>0xF45717552f12Ef7cb65e95476F217Ea008167Ae3</i> from any account you own. Winnings are send back to the same account.
+        </div>
+        <div class="col-md-4">
+          <div class="panel panel-primary">
+            <!-- Default panel contents -->
+            <div class="panel-heading">
+              Last creditors
+              <span class="pull-right">Total debts: <span id="totalDebts">0</span> ETH</span>
+            </div>
+            <table class="table table-striped">
+              <thead>
+                <th>#</th>
+                <th>Address</th>
+                <th>Ether</th>
+              </thead>
+              <tbody id="investments"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="panel panel-success">
+            <!-- Default panel contents -->
+            <div class="panel-heading">
+              Last payouts
+              <span class="pull-right">Total payouts: <span id="totalPayouts">0</span> ETH</span>
+            </div>
+            <table class="table table-striped">
+              <thead>
+                <th>#</th>
+                <th>Address</th>
+                <th>Ether</th>
+              </thead>
+              <tbody id="payouts"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="panel panel-info">
+            <!-- Default panel contents -->
+            <div class="panel-heading">
+              Next payouts
+            </div>
+            <table class="table table-striped">
+              <thead>
+                <th>#</th>
+                <th>Address</th>
+                <th>Ether</th>
+              </thead>
+              <tbody id="nextPayouts"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            Invest
+          </div>
+          <div class="panel-body">
+            <div class="form-group col-md-6">
+              <label for="amount">Ether</label>
+              <input type="number" step="any" class="form-control" id="amount" placeholder="Ether"><br>
+              <button type="button" class="btn btn-primary" id="invest">Invest</button>
+            </div>
+            <div class="form-group col-md-6 hide">
+              <label for="buddy">Buddy</label>
+              <select id="buddy" class="form-control">
+                <option value="0">Select buddy</option>
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <h2>What is this?</h2>
+              <p>
+                This is an educational game which simulates the finances of a government - in other words: It's a Ponzi scheme.
+              </p>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-md-6">
+              <h4>Rule 1</h4>
+              You can lend the government money - they promise to pay it back +10% interest. Minimum contribution is 1 Ether.
+              <h4>Rule 2</h4>
+              If the government does not receive new money for 12h the system breaks down. The latest creditor saw the crash coming and receives the jackpot. All others will lose their claims.
+            </div>
+            <div class="form-group col-md-6">
+              <h4>Rule 3</h4>
+              All incoming money is used in the following way: 5% goes into the "jackpot" (capped at 10k Ether), 5% goes to the corrupt elite that runs the government, 90% are used to pay out creditors in order of their date of credit. When the jackpot is full, 95% go toward the payout of creditors.
+              <h4>Rule 4</h4>
+              Creditors can share an affiliate link. Money deposited this way is distributed as follows: 5% go toward the linker directly, 5% to the corrupt elite, 5% into the jackpot (until full). The rest is used for payouts.
+            </div>
+            <div class="form-group col-md-12">
+              <h4>Read more about GovernMental here:</h4>
+			  <ul>
+			    <li><a href="https://twitter.com/g0vernmental" target="_blank">Twitter.com</a></li>
+			    <li><a href="https://forum.ethereum.org/discussion/5201/new-dapp-government-simulation-game-theoretic-variation-of-simple-ponzi-1000eth-jackpot#latest" target="_blank">forum.ethereum.org</a></li>
+			    <li><a href="https://bitcointalk.org/index.php?topic=1424324.0" target="_blank">Bitcointalk.org</a></li>
+			  </ul>
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading clearfix">
+            Connection
+            <a class="btn-sm pull-right btn-default" role="button" data-toggle="collapse" href="#collapse" aria-expanded="false" aria-controls="collapse">
+              show
+            </a>
+          </div>
+          <div class="panel-body collapse clearfix" id="collapse">
+            <div class="form-group col-md-6">
+              <label for="ethereum-node">Node</label>
+              <input type="text" class="form-control" id="ethereum-node" placeholder="Node" value="http://localhost:8545">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="contract-address">Contract-address</label>
+              <input type="text" class="form-control" id="contract-address" placeholder="Contract-address" value="0xF45717552f12Ef7cb65e95476F217Ea008167Ae3">
+            </div>
+            <div class="form-group col-md-12">
+              <button id="connect-wallet-btn" class="btn btn-primary">Connect Wallet</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="modalLabel"></h4>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="static/js/jquery.countdown.min.js"></script>
+    <script src="static/js/jquery.countTo.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bignumber.js/9.0.0/bignumber.min.js"></script>
+    <script src="static/js/nsite.js"></script>
+  </body>
+</html>
